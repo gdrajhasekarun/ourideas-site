@@ -3,59 +3,339 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OurIdeas</title>
-<meta name="description" content="Apps and experiments, built and run on my own cluster.">
+<title>Rajhasekarun G.D | OurIdeas</title>
+<meta name="description" content="Early ideas I'm testing and talking through in demos. The ones that hold up move to Mind Of Agents.">
+<script>try{var th=localStorage.getItem("theme");if(th)document.documentElement.setAttribute("data-theme",th)}catch(e){}</script>
 <style>
-:root{--bg:#0b1220;--card:#121b2e;--line:#22304d;--text:#e8edf7;--muted:#8fa0bf;--gold:#d4a843}
-@media (prefers-color-scheme:light){:root{--bg:#f6f7fb;--card:#fff;--line:#dde2ee;--text:#14203a;--muted:#5b6b8a;--gold:#a67c1a}}
+:root{--bg:#0b1220;--card:#121b2e;--line:#22304d;--text:#e8edf7;--muted:#8fa0bf;--gold:#d4a843;--green:#34c38f;--blue:#6aa8ff}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#e3e6ec;--card:#f1f3f7;--line:#ccd2de;--text:#0a0d14;--muted:#1f3a6e;--gold:#a67c1a;--green:#1f9d6e;--blue:#1f5fbf}}
+:root[data-theme="light"]{--bg:#e3e6ec;--card:#f1f3f7;--line:#ccd2de;--text:#0a0d14;--muted:#1f3a6e;--gold:#a67c1a;--green:#1f9d6e;--blue:#1f5fbf;color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-main{max-width:960px;margin:0 auto;padding:56px 20px}
-h1{margin:0 0 6px;font-size:2rem;letter-spacing:.02em}
-h1 span{color:var(--gold)}
-.sub{color:var(--muted);margin:0 0 36px}
-h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:32px 0 12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
-a.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;text-decoration:none;color:inherit;transition:transform .15s,border-color .15s}
-a.card:hover{transform:translateY(-2px);border-color:var(--gold)}
-.card h3{margin:0 0 4px;font-size:1.05rem}
-.card p{margin:0;color:var(--muted);font-size:.9rem}
-.tag{display:inline-block;margin-top:10px;font-size:.7rem;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
-.tag.live{color:#34c38f;border-color:#34c38f55}
-.tag.wip{color:var(--gold);border-color:#d4a84355}
-footer{margin-top:56px;color:var(--muted);font-size:.8rem}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:1040px;margin:0 auto;padding:48px 20px 64px}
+.top{display:flex;justify-content:space-between;align-items:center;margin:0 0 40px}
+.brand{font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0}
+.brand span{color:var(--gold)}
+#nav{display:flex;align-items:center;gap:18px}
+.navlink{display:inline-flex;color:var(--muted);text-decoration:none}
+.navlink:hover,.theme:hover{color:var(--text)}
+.theme{background:none;border:0;color:var(--muted);cursor:pointer;padding:4px;display:inline-flex;border-radius:8px}
+
+/* intro strip */
+.intro{display:flex;flex-wrap:wrap;gap:20px 40px;align-items:flex-end;justify-content:space-between;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.who{display:flex;align-items:center;gap:18px}
+.photo{width:88px;height:88px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);flex:none}
+.photo[hidden]{display:none}
+.who h1{margin:0;font-size:1.9rem;line-height:1.15}
+.aka{margin:2px 0 0;color:var(--muted);font-size:.9rem}
+.role{margin:6px 0 0;color:var(--gold);font-weight:600}
+.pitch{flex:1 1 320px;max-width:520px;margin:0;color:var(--muted)}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none;width:100%}
+.stats li{border:1px solid var(--line);border-radius:99px;padding:3px 13px;font-size:.82rem;color:var(--muted)}
+
+h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:0 0 14px}
+section{margin-top:48px}
+.head{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;margin-bottom:16px}
+.head h2{margin:0}
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.filters button{font:inherit;font-size:.82rem;cursor:pointer;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:4px 14px}
+.filters button:hover{border-color:var(--gold)}
+.filters button[aria-pressed="true"]{background:var(--gold);color:#0b1220;border-color:var(--gold);font-weight:600}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.idea{all:unset;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;min-height:190px;padding:20px;background:var(--card);border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:transform .15s,border-color .15s}
+.idea:hover,.idea:focus-visible{transform:translateY(-2px);border-color:var(--gold)}
+.idea h3{margin:0;font-size:1.1rem;line-height:1.3}
+.idea p{margin:0;color:var(--muted);font-size:.92rem;flex:1}
+.idea .foot{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.more{font-size:.78rem;color:var(--muted)}
+.tag{display:inline-block;font-size:.7rem;padding:2px 9px;border-radius:99px;border:1px solid currentColor;white-space:nowrap}
+.tag.exploring{color:var(--gold)}
+.tag.prototype{color:var(--blue)}
+.tag.ready{color:var(--green)}
+.empty{color:var(--muted);padding:20px 0}
+
+/* detail dialog */
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--text);padding:0;width:min(560px,calc(100vw - 32px));max-height:calc(100vh - 48px)}
+dialog::backdrop{background:rgba(5,9,18,.6)}
+.dlg{padding:26px}
+.dlg .row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.dlg h3{margin:0 0 8px;font-size:1.3rem}
+.dlg .x{background:none;border:0;color:var(--muted);font-size:1.5rem;line-height:1;cursor:pointer;padding:0 4px}
+.dlg .x:hover{color:var(--text)}
+.dlg h4{margin:20px 0 4px;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.dlg p{margin:0}
+.btn{display:inline-block;margin-top:22px;padding:8px 18px;border-radius:10px;font-weight:600;text-decoration:none;border:1px solid var(--gold);color:var(--text)}
+.btn:hover{opacity:.88}
+#nav .btn{margin:0;padding:6px 16px}
+
+/* about + expertise */
+.about p{margin:0 0 12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:.72rem;padding:2px 9px;border-radius:6px;background:rgba(143,160,191,.14);color:var(--muted)}
+.flip{perspective:1000px;height:250px;cursor:pointer;outline:none}
+.flip .inner{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+.flip.flipped .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;overflow:hidden}
+.flip:hover .face,.flip:focus-visible .face{border-color:var(--gold)}
+.front{align-items:center;justify-content:center;text-align:center}
+.front h3{margin:0;font-size:1.15rem;line-height:1.3}
+.front .hint{position:absolute;bottom:14px;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.back{transform:rotateY(180deg);justify-content:space-between;gap:10px}
+.back p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.5}
+@media (prefers-reduced-motion:reduce){.flip .inner,.idea{transition:none}}
 </style>
 </head>
 <body>
 <main>
-  <h1>Our<span>Ideas</span></h1>
-  <p class="sub">What I'm running and what I'm building. Pick an app.</p>
-  <div id="apps"></div>
-  <footer>Hosted on GitHub Pages. Apps run on my own cluster.</footer>
+  <header class="top"><p class="brand" id="brand"></p><div id="nav"></div></header>
+
+  <div class="intro">
+    <div class="who">
+      <img id="photo" class="photo" alt="" hidden>
+      <div>
+        <h1 id="name"></h1>
+        <p class="aka" id="aka"></p>
+        <p class="role" id="role"></p>
+      </div>
+    </div>
+    <p class="pitch" id="tagline"></p>
+    <ul class="stats" id="stats"></ul>
+  </div>
+
+  <section id="ideas-sec">
+    <div class="head"><h2>Ideas</h2><div class="filters" id="filters"></div></div>
+    <div class="grid" id="ideas"></div>
+  </section>
+
+  <section>
+    <h2>About</h2>
+    <div class="about" id="about"></div>
+  </section>
+
+  <section>
+    <h2>Expertise</h2>
+    <div class="grid" id="expertise"></div>
+  </section>
 </main>
+
+<dialog id="detail" aria-labelledby="d-title">
+  <div class="dlg">
+    <div class="row"><div><h3 id="d-title"></h3><span class="tag" id="d-status"></span></div><button class="x" id="d-close" type="button" aria-label="Close">&times;</button></div>
+    <div id="d-body"></div>
+  </div>
+</dialog>
+
+<script src="ideas.js"></script>
 <script>
-// EDIT THIS LIST to add, remove or re-order apps.
-// status: "live" or "wip". section groups the cards.
-const APPS = [
-  { section: "Live", name: "Dashboard", desc: "Home screen for all my apps.", url: "https://dashboard.ourideas.net", status: "live" },
-  { section: "Live", name: "Expense Tracker", desc: "Family expenses and payment-day helper.", url: "https://expenses.ourideas.net", status: "live" },
-  { section: "Under construction", name: "Agent Workbench", desc: "Two-phase coding agent with a tool registry.", url: "https://workbench.ourideas.net", status: "wip" },
-  { section: "Under construction", name: "Sandbox Factory", desc: "On-demand sandbox environments.", url: "https://sandbox.ourideas.net", status: "wip" }
-];
-const root = document.getElementById("apps");
-const sections = [...new Set(APPS.map(a => a.section))];
-for (const s of sections) {
-  const h = document.createElement("h2"); h.textContent = s; root.appendChild(h);
-  const g = document.createElement("div"); g.className = "grid";
-  for (const a of APPS.filter(x => x.section === s)) {
-    const el = document.createElement("a");
-    el.className = "card"; el.href = a.url; el.rel = "noopener";
-    const t = document.createElement("h3"); t.textContent = a.name;
-    const p = document.createElement("p"); p.textContent = a.desc;
-    const b = document.createElement("span"); b.className = "tag " + a.status; b.textContent = a.status === "live" ? "Live" : "In progress";
-    el.append(t, p, b); g.appendChild(el);
+// EDIT THIS BLOCK to change the page content.
+const SITE = {
+  "brand": [
+    [
+      "Our",
+      0
+    ],
+    [
+      "Ideas",
+      1
+    ]
+  ],
+  "name": "Rajhasekarun G.D",
+  "aka": "Raj for short",
+  "links": [
+    {
+      "label": "LinkedIn",
+      "icon": "linkedin",
+      "url": "https://www.linkedin.com/in/rajhasekarun-g-d-2a1550a/"
+    }
+  ],
+  "role": "Sr. Architect",
+  "tagline": "Early ideas I'm testing and talking through in demos. The ones that hold up move to Mind Of Agents.",
+  "stats": [
+    "16+ years",
+    "Agentic AI",
+    "Architecture",
+    "Automation",
+    "Infrastructure"
+  ],
+  "about": [
+    "I started in manual testing and built my career one step at a time over 16+ years, learning each new layer by doing the work. Manual testing taught me how software really breaks. That led me into automation, where I grew into framework design, test strategy and estimation across banking, healthcare, information and media.",
+    "From there I moved into application development and then architecture and system design, building the services and platforms I used to only test, which changed how I design for quality. Now I'm working with AI: agentic systems, RAG-based solutions and AI-assisted automation, all hands-on and built from the ground up."
+  ],
+  "expertise": [
+    {
+      "title": "AI & agentic systems",
+      "desc": "Agentic AI, RAG-based solutions and LLM integration, built as practical systems with guardrails.",
+      "tags": [
+        "Agentic AI",
+        "RAG",
+        "LangGraph",
+        "MCP servers",
+        "LLM integration"
+      ]
+    },
+    {
+      "title": "Architecture & system design",
+      "desc": "Designing services and platforms end to end, applying enterprise patterns with clean separation across the stack.",
+      "tags": [
+        "Microservices",
+        "API gateway & BFF",
+        "ESB / Apache Camel",
+        "OIDC / SSO",
+        "Java / Spring Boot",
+        "Python / FastAPI",
+        "React / TypeScript"
+      ]
+    },
+    {
+      "title": "Infrastructure & platform",
+      "desc": "Running production-style platforms on Kubernetes with CI/CD, ingress, identity and secure remote access.",
+      "tags": [
+        "Kubernetes (k3s)",
+        "GitHub Actions",
+        "Traefik",
+        "Cloudflare Tunnel",
+        "Keycloak / OIDC"
+      ]
+    },
+    {
+      "title": "Test automation & framework design",
+      "desc": "Designing scalable automation frameworks and test strategies, with sound estimation and delivery across large programs.",
+      "tags": [
+        "Framework design",
+        "Test strategy",
+        "Project estimation",
+        "UI & API automation"
+      ]
+    },
+    {
+      "title": "Database & backend testing",
+      "desc": "Validating data and services end to end, plus UI and backend maintenance for long-lived applications.",
+      "tags": [
+        "Database testing",
+        "Backend validation",
+        "Maintenance"
+      ]
+    }
+  ],
+  "photo": "assets/profile.jpg"
+};
+
+const $ = id => document.getElementById(id);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; };
+const NS = "http://www.w3.org/2000/svg";
+
+/* ---- header ---- */
+for (const [txt, gold] of SITE.brand) $("brand").appendChild(gold ? el("span", "", txt) : document.createTextNode(txt));
+$("name").textContent = SITE.name;
+if (SITE.photo) { const im = $("photo"); im.onload = () => { im.hidden = false; }; im.alt = SITE.name; im.src = SITE.photo; }
+$("aka").textContent = SITE.aka || "";
+$("role").textContent = SITE.role;
+$("tagline").textContent = SITE.tagline;
+for (const s of SITE.stats) $("stats").appendChild(el("li", "", s));
+
+/* ---- theme toggle ---- */
+const root_ = document.documentElement;
+const sysLight = () => window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches;
+const curTheme = () => root_.getAttribute("data-theme") || (sysLight() ? "light" : "dark");
+const themeBtn = el("button", "theme"); themeBtn.type = "button";
+const themeSvg = document.createElementNS(NS, "svg");
+for (const [k, v] of Object.entries({ viewBox: "0 0 24 24", width: "20", height: "20", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", "aria-hidden": "true" })) themeSvg.setAttribute(k, v);
+themeBtn.appendChild(themeSvg);
+const SUN = [["circle", { cx: 12, cy: 12, r: 5 }], ["path", { d: "M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" }]];
+const MOON = [["path", { d: "M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" }]];
+function paintTheme() {
+  const t = curTheme();
+  themeSvg.replaceChildren();
+  for (const [tag, attrs] of (t === "dark" ? SUN : MOON)) { const n = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); themeSvg.appendChild(n); }
+  const label = t === "dark" ? "Switch to light theme" : "Switch to dark theme";
+  themeBtn.setAttribute("aria-label", label); themeBtn.title = label;
+}
+themeBtn.addEventListener("click", () => {
+  const next = curTheme() === "dark" ? "light" : "dark";
+  root_.setAttribute("data-theme", next);
+  try { localStorage.setItem("theme", next); } catch (e) {}
+  paintTheme();
+});
+paintTheme();
+$("nav").appendChild(themeBtn);
+
+const ICONS = { linkedin: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" };
+for (const l of (SITE.links || [])) {
+  const a = el("a", "navlink"); a.href = l.url; a.rel = "noopener"; a.setAttribute("aria-label", l.label); a.title = l.label;
+  const svg = document.createElementNS(NS, "svg");
+  for (const [k, v] of Object.entries({ viewBox: "0 0 24 24", width: "22", height: "22", fill: "currentColor", "aria-hidden": "true" })) svg.setAttribute(k, v);
+  const p = document.createElementNS(NS, "path"); p.setAttribute("d", ICONS[l.icon]); svg.appendChild(p); a.appendChild(svg);
+  $("nav").appendChild(a);
+}
+
+if (SITE.login) { const a = el("a", "btn", "Login"); a.href = SITE.login; $("nav").appendChild(a); }
+
+/* ---- ideas board ---- */
+const IDEAS = window.IDEAS || SITE.ideas || [];
+const STATUS = { exploring: "Exploring", prototype: "Prototype", ready: "Ready to demo" };
+let active = "all";
+const dlg = $("detail");
+
+function renderFilters() {
+  const f = $("filters"); f.replaceChildren();
+  const used = ["all", ...Object.keys(STATUS).filter(k => IDEAS.some(i => i.status === k))];
+  for (const k of used) {
+    const b = el("button", "", k === "all" ? "All" : STATUS[k]); b.type = "button"; b.setAttribute("aria-pressed", String(k === active));
+    b.addEventListener("click", () => { active = k; renderFilters(); renderIdeas(); });
+    f.appendChild(b);
   }
-  root.appendChild(g);
+}
+function renderIdeas() {
+  const g = $("ideas"); g.replaceChildren();
+  const list = IDEAS.filter(i => active === "all" || i.status === active);
+  if (!list.length) { g.appendChild(el("p", "empty", "Nothing here yet.")); return; }
+  for (const i of list) {
+    const c = el("button", "idea"); c.type = "button";
+    c.append(el("h3", "", i.title), el("p", "", i.pitch));
+    const foot = el("div", "foot"); foot.append(el("span", "tag " + i.status, STATUS[i.status]), el("span", "more", "View details →"));
+    c.appendChild(foot);
+    c.addEventListener("click", () => openIdea(i));
+    g.appendChild(c);
+  }
+}
+function openIdea(i) {
+  $("d-title").textContent = i.title;
+  const s = $("d-status"); s.className = "tag " + i.status; s.textContent = STATUS[i.status];
+  const body = $("d-body"); body.replaceChildren();
+  for (const [h, v] of [["The idea", i.pitch], ["Problem", i.problem], ["Approach", i.approach], ["Next", i.next]]) {
+    if (!v) continue; body.append(el("h4", "", h), el("p", "", v));
+  }
+  if (i.tags && i.tags.length) { const c = el("div", "chips"); c.style.marginTop = "18px"; for (const t of i.tags) c.appendChild(el("span", "chip", t)); body.appendChild(c); }
+  if (i.url) { const a = el("a", "btn", i.urlLabel || "Open demo"); a.href = i.url; a.rel = "noopener"; body.appendChild(a); }
+  dlg.showModal();
+}
+$("d-close").addEventListener("click", () => dlg.close());
+dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+if (IDEAS.length) { renderFilters(); renderIdeas(); } else { $("ideas-sec").remove(); }
+
+/* ---- about ---- */
+for (const p of SITE.about) $("about").appendChild(el("p", "", p));
+
+/* ---- expertise flip cards (one open at a time) ---- */
+for (const x of SITE.expertise) {
+  const f = el("div", "flip"); f.tabIndex = 0; f.setAttribute("role", "button"); f.setAttribute("aria-pressed", "false"); f.setAttribute("aria-label", x.title);
+  const inner = el("div", "inner");
+  const front = el("div", "face front"); front.append(el("h3", "", x.title), el("span", "hint", "Tap to reveal"));
+  const back = el("div", "face back"); back.appendChild(el("p", "", x.desc));
+  const c = el("div", "chips");
+  for (const t of x.tags) c.appendChild(el("span", "chip", t));
+  back.appendChild(c);
+  inner.append(front, back); f.appendChild(inner);
+  const toggle = () => {
+    const open = !f.classList.contains("flipped");
+    for (const o of document.querySelectorAll(".flip.flipped")) { o.classList.remove("flipped"); o.setAttribute("aria-pressed", "false"); }
+    if (open) { f.classList.add("flipped"); f.setAttribute("aria-pressed", "true"); }
+  };
+  f.addEventListener("click", toggle);
+  f.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
+  $("expertise").appendChild(f);
 }
 </script>
 </body>
