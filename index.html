@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OurIdeas</title>
+<meta name="description" content="Apps and experiments, built and run on my own cluster.">
+<style>
+:root{--bg:#0b1220;--card:#121b2e;--line:#22304d;--text:#e8edf7;--muted:#8fa0bf;--gold:#d4a843}
+@media (prefers-color-scheme:light){:root{--bg:#f6f7fb;--card:#fff;--line:#dde2ee;--text:#14203a;--muted:#5b6b8a;--gold:#a67c1a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:960px;margin:0 auto;padding:56px 20px}
+h1{margin:0 0 6px;font-size:2rem;letter-spacing:.02em}
+h1 span{color:var(--gold)}
+.sub{color:var(--muted);margin:0 0 36px}
+h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:32px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+a.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;text-decoration:none;color:inherit;transition:transform .15s,border-color .15s}
+a.card:hover{transform:translateY(-2px);border-color:var(--gold)}
+.card h3{margin:0 0 4px;font-size:1.05rem}
+.card p{margin:0;color:var(--muted);font-size:.9rem}
+.tag{display:inline-block;margin-top:10px;font-size:.7rem;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+.tag.live{color:#34c38f;border-color:#34c38f55}
+.tag.wip{color:var(--gold);border-color:#d4a84355}
+footer{margin-top:56px;color:var(--muted);font-size:.8rem}
+</style>
+</head>
+<body>
+<main>
+  <h1>Our<span>Ideas</span></h1>
+  <p class="sub">What I'm running and what I'm building. Pick an app.</p>
+  <div id="apps"></div>
+  <footer>Hosted on GitHub Pages. Apps run on my own cluster.</footer>
+</main>
+<script>
+// EDIT THIS LIST to add, remove or re-order apps.
+// status: "live" or "wip". section groups the cards.
+const APPS = [
+  { section: "Live", name: "Dashboard", desc: "Home screen for all my apps.", url: "https://dashboard.ourideas.net", status: "live" },
+  { section: "Live", name: "Expense Tracker", desc: "Family expenses and payment-day helper.", url: "https://expenses.ourideas.net", status: "live" },
+  { section: "Under construction", name: "Agent Workbench", desc: "Two-phase coding agent with a tool registry.", url: "https://workbench.ourideas.net", status: "wip" },
+  { section: "Under construction", name: "Sandbox Factory", desc: "On-demand sandbox environments.", url: "https://sandbox.ourideas.net", status: "wip" }
+];
+const root = document.getElementById("apps");
+const sections = [...new Set(APPS.map(a => a.section))];
+for (const s of sections) {
+  const h = document.createElement("h2"); h.textContent = s; root.appendChild(h);
+  const g = document.createElement("div"); g.className = "grid";
+  for (const a of APPS.filter(x => x.section === s)) {
+    const el = document.createElement("a");
+    el.className = "card"; el.href = a.url; el.rel = "noopener";
+    const t = document.createElement("h3"); t.textContent = a.name;
+    const p = document.createElement("p"); p.textContent = a.desc;
+    const b = document.createElement("span"); b.className = "tag " + a.status; b.textContent = a.status === "live" ? "Live" : "In progress";
+    el.append(t, p, b); g.appendChild(el);
+  }
+  root.appendChild(g);
+}
+</script>
+</body>
+</html>
